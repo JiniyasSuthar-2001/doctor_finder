@@ -1,42 +1,57 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Finder</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-    <h1>Doctor Finder</h1>
     <nav>
-        <a href="{% url 'register' %}">Register New Doctor</a> | 
-        <a href="{% url 'pay' %}">Pay Consultation Fee</a> |
+        <div class="nav-links-left">
+            <a href="{% url 'home' %}" style="font-size: 1.5rem; font-weight: bold; color: white;">Doctor Finder</a>
+            <a href="{% url 'register' %}">Register Doctor</a>
+            <a href="{% url 'pay' %}">Pay Fee</a>
+        </div>
 
-        {% if user.is_authenticated %}
-            <span>Welcome, <strong>{{ user.username }}</strong>!</span> | 
-            <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Logout</button>
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a> | 
-            <a href="{% url 'signup' %}">Sign Up</a> |
-            <a href="{% url 'social:begin' 'google-oauth2' %}" style="color: #4285F4;">Login with Google</a>
-        {% endif %}
+        <div class="nav-links-right">
+            {% if user.is_authenticated %}
+                <span>Welcome, <strong>{{ user.username }}</strong>!</span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger" style="padding: 5px 12px; font-size: 0.9rem;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}" class="btn-primary" style="padding: 5px 12px; font-size: 0.9rem;">Sign Up</a>
+                <a href="{% url 'social:begin' 'google-oauth2' %}" style="color: #4285F4; font-weight: bold;">Google Login</a>
+            {% endif %}
+        </div>
     </nav>
 
-    <div id="doctor-list" style="margin-top: 20px;">
-        {% for doc in doctors %}
-        <div class="card" id="doc-{{ doc.id }}">
-            <strong>{{ doc.name }}</strong> - {{ doc.specialty }}
-            <button onclick="deleteDoc('{{ doc.id }}')">Delete (AJAX)</button>
+    <div class="container">
+        <h1>Available Doctors</h1>
+        
+        <div id="doctor-list">
+            {% for doc in doctors %}
+            <div class="card" id="doc-{{ doc.id }}">
+                <div>
+                    <strong style="font-size: 1.2rem;">{{ doc.name }}</strong><br>
+                    <span style="color: #666;">{{ doc.specialty }}</span>
+                </div>
+                <button class="btn-danger" onclick="deleteDoc('{{ doc.id }}')">Delete</button>
+            </div>
+            {% empty %}
+                <div class="card">
+                    <p>No doctors found in the database. Be the first to register one!</p>
+                </div>
+            {% endfor %}
         </div>
-        {% empty %}
-            <p>No doctors found.</p>
-        {% endfor %}
-    </div>
 
-    <div id="map" style="height: 400px; width: 100%; margin-top: 20px; border: 1px solid #ccc;"></div>
+        <div id="map"></div>
+    </div>
 
     <script id="doctor-data" type="application/json">
         [
@@ -61,11 +76,12 @@
                     data: { 'id': docId },
                     success: function (data) {
                         if (data.deleted) {
-                            document.getElementById(`doc-${docId}`).remove();
+                            // Smoothly remove the card from the UI
+                            $(`#doc-${docId}`).fadeOut(300, function() { $(this).remove(); });
                         }
                     },
                     error: function() {
-                        alert("Error communicating with server.");
+                        alert("You must be logged in or have permission to delete.");
                     }
                 });
             }
@@ -77,17 +93,19 @@
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 5,
                 center: indiaCenter,
+                styles: [ { "featureType": "poi", "stylers": [{ "visibility": "off" }] } ] // Cleaner map
             });
 
             const jsonData = document.getElementById('doctor-data').textContent;
             const doctors = JSON.parse(jsonData);
 
             doctors.forEach(doc => {
-                if (doc.lat !== 0) {
+                if (doc.lat !== 0 && doc.lng !== 0) {
                     new google.maps.Marker({
                         position: { lat: doc.lat, lng: doc.lng },
                         map: map,
-                        title: doc.name
+                        title: doc.name,
+                        animation: google.maps.Animation.DROP
                     });
                 }
             });

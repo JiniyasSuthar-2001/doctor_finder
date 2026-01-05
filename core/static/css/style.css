@@ -1,3 +1,86 @@
-body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-.card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-#map { height: 300px; width: 100%; margin-top: 20px; }
+/* General Layout */
+body { 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    background: #f0f2f5; 
+    margin: 0;
+    padding: 0; 
+}
+
+/* Navigation Bar - Flexbox Power */
+nav {
+    display: flex;
+    justify-content: space-between; /* Pushes brand to left, auth to right */
+    align-items: center;
+    background-color: #2c3e50;
+    padding: 15px 30px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.nav-links-left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links-right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+nav a {
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+/* Doctor Cards */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card { 
+    background: white; 
+    padding: 20px; 
+    margin-bottom: 15px; 
+    border-radius: 12px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+button, .nav-btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-danger { background: #e74c3c; color: white; }
+.btn-primary { background: #3498db; color: white; text-decoration: none; }
+
+/* Map Styling */
+#map { 
+    height: 450px; 
+    width: 100%; 
+    margin-top: 30px; 
+    border-radius: 15px;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
