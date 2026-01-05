@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logged Out</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="card" style="max-width: 400px; margin: 50px auto; text-align: center;">
+        <h2>You have been logged out</h2>
+        <p>Thank you for using Doctor Finder.</p>
+        <a href="{% url 'login' %}">Login again</a> | <a href="{% url 'home' %}">Return Home</a>
+    </div>
+</body>
+</html>

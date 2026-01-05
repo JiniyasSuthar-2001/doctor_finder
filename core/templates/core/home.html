@@ -10,26 +10,29 @@
     <h1>Doctor Finder</h1>
     <nav>
         <a href="{% url 'register' %}">Register New Doctor</a> | 
-        <a href="{% url 'pay' %}">Pay Consultation Fee</a>
-        
-    {% if user.is_authenticated %}
-        <span>Welcome, {{ user.username }}!</span> | 
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a> | 
-        <a href="{% url 'login' %}">Login</a>
-        
-    {% endif %}
+        <a href="{% url 'pay' %}">Pay Consultation Fee</a> |
 
+        {% if user.is_authenticated %}
+            <span>Welcome, <strong>{{ user.username }}</strong>!</span> | 
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> | 
+            <a href="{% url 'signup' %}">Sign Up</a> |
+            <a href="{% url 'social:begin' 'google-oauth2' %}" style="color: #4285F4;">Login with Google</a>
+        {% endif %}
     </nav>
 
-
-    <div id="doctor-list">
+    <div id="doctor-list" style="margin-top: 20px;">
         {% for doc in doctors %}
         <div class="card" id="doc-{{ doc.id }}">
             <strong>{{ doc.name }}</strong> - {{ doc.specialty }}
             <button onclick="deleteDoc('{{ doc.id }}')">Delete (AJAX)</button>
         </div>
+        {% empty %}
+            <p>No doctors found.</p>
         {% endfor %}
     </div>
 
@@ -60,6 +63,9 @@
                         if (data.deleted) {
                             document.getElementById(`doc-${docId}`).remove();
                         }
+                    },
+                    error: function() {
+                        alert("Error communicating with server.");
                     }
                 });
             }
@@ -73,7 +79,6 @@
                 center: indiaCenter,
             });
 
-            // 2. READ THE DATA FROM THE JSON SCRIPT TAG ABOVE
             const jsonData = document.getElementById('doctor-data').textContent;
             const doctors = JSON.parse(jsonData);
 

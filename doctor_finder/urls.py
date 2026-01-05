@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,7 @@ urlpatterns = [
     path('ajax/delete/', views.delete_doctor, name='delete_doctor'),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('pay/', views.initiate_payment, name='pay'),
-path('payment-status/', views.payment_status, name='payment_status'),
+    path('payment-status/', views.payment_status, name='payment_status'),
+    path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='core/logged_out.html'), name='logout'),
 ]
