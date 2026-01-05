@@ -1,30 +1,19 @@
-/* Color Palette */
-:root {
-    --primary-blue: #0056b3;
-    --light-bg: #f8f9fa;
-    --dark-text: #333;
-    --danger-red: #dc3545;
-    --success-green: #28a745;
-}
-
+/* General Reset */
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background: var(--light-bg); 
+    background: #f4f7f6; 
     margin: 0;
-    color: var(--dark-text);
+    color: #2c3e50;
 }
 
-/* Navbar - Pushing items to corners */
+/* Navbar: Split Corners */
 nav {
     display: flex;
-    justify-content: space-between; /* This pushes the two divs to opposite sides */
+    justify-content: space-between; /* This pushes nav-left and nav-right to corners */
     align-items: center;
-    background-color: white;
-    padding: 0.8rem 2rem;
+    background-color: #ffffff;
+    padding: 10px 40px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
 }
 
 .nav-left, .nav-right {
@@ -35,23 +24,17 @@ nav {
 
 nav a {
     text-decoration: none;
-    color: var(--primary-blue);
+    color: #007bff;
     font-weight: 600;
-    transition: 0.3s;
 }
 
-nav a:hover {
-    color: #003d80;
-}
-
-/* Layout Container */
+/* Doctor Cards */
 .container {
     max-width: 1100px;
     margin: 30px auto;
-    padding: 0 20px;
+    padding: 20px;
 }
 
-/* Professional Cards */
 .card { 
     background: white; 
     padding: 20px; 
@@ -60,40 +43,23 @@ nav a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 5px solid var(--primary-blue);
+    border-left: 5px solid #007bff;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-.card:hover {
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-}
+/* Auth Button Style */
+.signup-btn {
+    background-color: #007bff;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 20px;
 
-/* Buttons */
-.btn {
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+.login-btn {
+    background-color: #007bff;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 20px;
 }
-
-.btn-delete {
-    background: white;
-    color: var(--danger-red);
-    border: 1px solid var(--danger-red);
-}
-
-.btn-delete:hover {
-    background: var(--danger-red);
-    color: white;
-}
-
-/* Map UI */
-#map { 
-    height: 400px; 
-    width: 100%; 
-    border-radius: 12px;
-    margin-top: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-decoration: none;
+    font-weight: 600;
 }
