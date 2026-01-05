@@ -28,8 +28,8 @@ def delete_doctor(request):
 
 # Payment Integration Views
 # Replace with your keys from Razorpay Dashboard -> Settings -> API Keys
-RAZORPAY_KEY_ID = 'rzp_test_your_id'
-RAZORPAY_KEY_SECRET = 'your_secret_key'
+RAZORPAY_KEY_ID = 'rzp_test_S0GRrXzzyiT3Nq'
+RAZORPAY_KEY_SECRET = 'HcE5ibSBV07G9tzQjygteXSK'
 
 client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
