@@ -118,7 +118,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Static Files Configuration
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles' # PythonAnywhere will look here
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'static' # PythonAnywhere will look here
+STATICFILES_DIRS = [BASE_DIR / 'core'/'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
