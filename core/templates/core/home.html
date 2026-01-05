@@ -9,27 +9,46 @@
 </head>
 <body>
 
-    <nav>
-        <div class="nav-links-left">
-            <a href="{% url 'home' %}" style="font-size: 1.5rem; font-weight: bold; color: white;">Doctor Finder</a>
-            <a href="{% url 'register' %}">Register Doctor</a>
-            <a href="{% url 'pay' %}">Pay Fee</a>
-        </div>
+      <nav>
+    <div class="nav-left">
+        <a href="{% url 'home' %}" style="font-size: 1.4rem; color: #0056b3;">🩺 Doctor Finder</a>
+        <a href="{% url 'register' %}">Register Doctor</a>
+        <a href="{% url 'pay' %}">Pay Fee</a>
+    </div>
 
-        <div class="nav-links-right">
-            {% if user.is_authenticated %}
-                <span>Welcome, <strong>{{ user.username }}</strong>!</span>
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-danger" style="padding: 5px 12px; font-size: 0.9rem;">Logout</button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'signup' %}" class="btn-primary" style="padding: 5px 12px; font-size: 0.9rem;">Sign Up</a>
-                <a href="{% url 'social:begin' 'google-oauth2' %}" style="color: #4285F4; font-weight: bold;">Google Login</a>
-            {% endif %}
+    <div class="nav-right">
+        {% if user.is_authenticated %}
+            <span style="color: #666;">Hi, <strong>{{ user.username }}</strong></span>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="background:none; border:none; color: #dc3545; cursor:pointer; font-weight:bold;">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}" style="background: #0056b3; color: white; padding: 5px 15px; border-radius: 5px;">Sign Up</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    <h2 style="color: #2c3e50;">Available Specialists</h2>
+    
+    <div id="doctor-list">
+        {% for doc in doctors %}
+        <div class="card" id="doc-{{ doc.id }}">
+            <div>
+                <span style="font-size: 1.2rem; font-weight: bold;">{{ doc.name }}</span><br>
+                <small style="color: #666; text-transform: uppercase; letter-spacing: 1px;">{{ doc.specialty }}</small>
+            </div>
+            <button class="btn btn-delete" onclick="deleteDoc('{{ doc.id }}')">Delete</button>
         </div>
-    </nav>
+        {% empty %}
+        <p>No doctors registered yet.</p>
+        {% endfor %}
+    </div>
+
+    <div id="map"></div>
+</div>
 
     <div class="container">
         <h1>Available Doctors</h1>

@@ -1,86 +1,99 @@
-/* General Layout */
-body { 
-    font-family: 'Segoe UI', Arial, sans-serif; 
-    background: #f0f2f5; 
-    margin: 0;
-    padding: 0; 
+/* Color Palette */
+:root {
+    --primary-blue: #0056b3;
+    --light-bg: #f8f9fa;
+    --dark-text: #333;
+    --danger-red: #dc3545;
+    --success-green: #28a745;
 }
 
-/* Navigation Bar - Flexbox Power */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: var(--light-bg); 
+    margin: 0;
+    color: var(--dark-text);
+}
+
+/* Navbar - Pushing items to corners */
 nav {
     display: flex;
-    justify-content: space-between; /* Pushes brand to left, auth to right */
+    justify-content: space-between; /* This pushes the two divs to opposite sides */
     align-items: center;
-    background-color: #2c3e50;
-    padding: 15px 30px;
-    color: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    background-color: white;
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.nav-links-left {
+.nav-left, .nav-right {
     display: flex;
+    align-items: center;
     gap: 20px;
-    align-items: center;
-}
-
-.nav-links-right {
-    display: flex;
-    gap: 15px;
-    align-items: center;
 }
 
 nav a {
-    color: #bdc3c7;
     text-decoration: none;
+    color: var(--primary-blue);
+    font-weight: 600;
     transition: 0.3s;
 }
 
 nav a:hover {
-    color: white;
+    color: #003d80;
 }
 
-/* Doctor Cards */
+/* Layout Container */
 .container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
 }
 
+/* Professional Cards */
 .card { 
     background: white; 
     padding: 20px; 
     margin-bottom: 15px; 
-    border-radius: 12px; 
+    border-radius: 10px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-left: 5px solid var(--primary-blue);
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
 }
 
 .card:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
 
 /* Buttons */
-button, .nav-btn {
-    padding: 10px 18px;
-    border-radius: 6px;
+.btn {
+    padding: 8px 16px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.btn-danger { background: #e74c3c; color: white; }
-.btn-primary { background: #3498db; color: white; text-decoration: none; }
+.btn-delete {
+    background: white;
+    color: var(--danger-red);
+    border: 1px solid var(--danger-red);
+}
 
-/* Map Styling */
+.btn-delete:hover {
+    background: var(--danger-red);
+    color: white;
+}
+
+/* Map UI */
 #map { 
-    height: 450px; 
+    height: 400px; 
     width: 100%; 
-    margin-top: 30px; 
-    border-radius: 15px;
-    border: 3px solid white;
+    border-radius: 12px;
+    margin-top: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
