@@ -1,0 +1,16 @@
+<form id="regForm" method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" id="name" placeholder="Doctor Name">
+    <input type="text" name="specialty" placeholder="Specialty">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('regForm').onsubmit = function(e) {
+        const name = document.getElementById('name').value;
+        if(name === "") {
+            alert("Name is required!");
+            e.preventDefault();
+        }
+    }
+</script>

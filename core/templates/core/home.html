@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Finder</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <h1>Doctor Finder</h1>
+    <nav>
+        <a href="{% url 'register' %}">Register New Doctor</a> | 
+        <a href="{% url 'pay' %}">Pay Consultation Fee</a>
+    </nav>
+
+    <div id="doctor-list">
+        {% for doc in doctors %}
+        <div class="card" id="doc-{{ doc.id }}">
+            <strong>{{ doc.name }}</strong> - {{ doc.specialty }}
+            <button onclick="deleteDoc('{{ doc.id }}')">Delete (AJAX)</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="map" style="height: 400px; width: 100%; margin-top: 20px; border: 1px solid #ccc;"></div>
+
+    <script id="doctor-data" type="application/json">
+        [
+            {% for doc in doctors %}
+            {
+                "name": "{{ doc.name|escapejs }}",
+                "lat": {{ doc.lat|default:0 }},
+                "lng": {{ doc.lng|default:0 }}
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        // AJAX Delete Function
+        function deleteDoc(docId) {
+            if (confirm("Are you sure you want to delete this doctor?")) {
+                $.ajax({
+                    url: '{% url "delete_doctor" %}',
+                    data: { 'id': docId },
+                    success: function (data) {
+                        if (data.deleted) {
+                            document.getElementById(`doc-${docId}`).remove();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Google Maps Initialization
+        function initMap() {
+            const indiaCenter = { lat: 20.5937, lng: 78.9629 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 5,
+                center: indiaCenter,
+            });
+
+            // 2. READ THE DATA FROM THE JSON SCRIPT TAG ABOVE
+            const jsonData = document.getElementById('doctor-data').textContent;
+            const doctors = JSON.parse(jsonData);
+
+            doctors.forEach(doc => {
+                if (doc.lat !== 0) {
+                    new google.maps.Marker({
+                        position: { lat: doc.lat, lng: doc.lng },
+                        map: map,
+                        title: doc.name
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+</body>
+</html>

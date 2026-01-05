@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Payment</title>
+</head>
+<body>
+    <h1>Pay Consultation Fee</h1>
+    <p>Amount to pay: INR 500.00</p>
+    
+    <form action="{{ callback_url }}" method="POST">
+        {% csrf_token %}
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_merchant_key }}"
+            data-amount="{{ razorpay_amount }}"
+            data-currency="{{ currency }}"
+            data-order_id="{{ razorpay_order_id }}"
+            data-buttontext="Pay with Razorpay"
+            data-name="Doctor Finder Project"
+            data-description="Doctor Consultation Fee"
+            data-prefill.name="{{ request.user.username }}"
+            data-prefill.email="{{ request.user.email }}"
+            data-theme.color="#3399cc"
+        ></script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+</body>
+</html>
