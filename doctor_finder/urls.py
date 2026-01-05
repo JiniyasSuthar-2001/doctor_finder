@@ -29,4 +29,5 @@ urlpatterns = [
     path('payment-status/', views.payment_status, name='payment_status'),
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='core/logged_out.html'), name='logout'),
+    path('signup/', views.signup, name='signup')
 ]

@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up - Doctor Finder</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="card" style="max-width: 400px; margin: 50px auto;">
+        <h2>Create an Account</h2>
+        <form id="signupForm" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+
+    <script>
+        // JavaScript Form Validation
+        document.getElementById('signupForm').onsubmit = function(e) {
+            const inputs = this.querySelectorAll('input[required]');
+            let valid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    valid = false;
+                    input.style.border = "2px solid red";
+                } else {
+                    input.style.border = "1px solid #ccc";
+                }
+            });
+
+            if (!valid) {
+                alert("Please fill in all required fields.");
+                e.preventDefault();
+            }
+        };
+    </script>
+</body>
+</html>
